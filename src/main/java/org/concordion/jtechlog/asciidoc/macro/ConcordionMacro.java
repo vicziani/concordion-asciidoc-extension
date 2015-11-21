@@ -2,6 +2,8 @@ package org.concordion.jtechlog.asciidoc.macro;
 
 import org.asciidoctor.ast.AbstractBlock;
 import org.asciidoctor.extension.InlineMacroProcessor;
+import org.concordion.jtechlog.asciidoc.macro.command.AssertEqualsCommand;
+import org.concordion.jtechlog.asciidoc.macro.command.SetCommand;
 
 import java.util.Map;
 
@@ -16,9 +18,9 @@ public class ConcordionMacro extends InlineMacroProcessor {
     protected Object process(AbstractBlock parent, String target, Map<String, Object> attributes) {
         switch (target) {
             case "assertEquals":
-                String[] attrValues = ((String) attributes.get("text")).split("\\,");
-
-                return String.format("<span concordion:assertEquals=\"%s\">%s</span>", attrValues[0].trim(), attrValues[1].trim());
+                return new AssertEqualsCommand().process(attributes);
+            case "set":
+                return new SetCommand().process(attributes);
             default:
                 throw new IllegalArgumentException("Invalid target: " + target);
         }

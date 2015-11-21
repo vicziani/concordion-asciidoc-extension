@@ -57,8 +57,15 @@ Extensions use AsciiDoc macros. The format of the macro is `<name>:<target>[<att
 Use assertEquals in the following form:
 
 ----
-concordion:assertEquals["getGreeting()", "Hello World"]
+concordion:assertEquals[getGreeting(), Hello World]
 ----
+
+=== set command
+
+----
+concordion:set[#firstName, Bob]
+----
+
 
 == Commands and structures to implement
 
@@ -68,13 +75,6 @@ concordion:assertEquals["getGreeting()", "Hello World"]
 concordion:exbegin
 
 concordion:exend
-----
-
-
-=== set command
-
-----
-concordion:set[#firstName, Bob]
 ----
 
 === execute command
