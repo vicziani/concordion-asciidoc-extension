@@ -1,0 +1,1 @@
+concordion:assertEquals[getGreeting(), Hello World!]

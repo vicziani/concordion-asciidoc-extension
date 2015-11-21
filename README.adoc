@@ -1,0 +1,109 @@
+:source-highlighter: coderay
+
+= Concordion AsciiDoc
+
+image::https://img.shields.io/badge/license-Apache%202.0-blue.svg["Apache License 2.0", link="http://www.apache.org/licenses/LICENSE-2.0.html"]
+
+This Concordion AsciiDoc extension is massively is under development, don't use it in production, but any contribution
+is welcome.
+
+== Introduction
+
+http://www.methods.co.nz/asciidoc/[AsciiDoc] is a text document format for writing documentation, articles, books,
+etc. AsciiDoc files can be translated to many formats including HTML, PDF. Its
+http://www.methods.co.nz/asciidoc/userguide.html[AsciiDoc User Guide] is very detailed.
+
+http://concordion.org[Concordion] is a software testing tool to create "live documentation".
+
+This Concordion AsciiDoc extension allows you to write your Concordion specification in AsciiDoc format. This
+extension is based on https://github.com/asciidoctor/asciidoctorj[AsciidoctorJ] which is a Java bindings for Asciidoctor.
+http://asciidoctor.org/[AsciiDoctor] is a toolchain for converting AsciiDoc content which is written in Ruby.
+
+The https://github.com/concordion/concordion-markdown-extension[Concordion Markdown] inspired me to write this extension.
+
+== Usage
+
+With Maven use the following dependency:
+
+[source,xml]
+----
+<dependency>
+    <groupId>org.asciidoctor</groupId>
+    <artifactId>asciidoctorj</artifactId>
+    <version>1.5.2</version>
+</dependency>
+----
+
+In Concordion test fixture use `AsciiDocConcordionExtension`:
+
+[source,java]
+----
+@RunWith(ConcordionRunner.class)
+@Extensions(AsciiDocConcordionExtension.class)
+public class HelloWorldFixture {
+
+    // ...
+}
+----
+
+== Supported Concordion structures and commands
+
+This examples based on the http://concordion.org/Tutorial.html[Concordion tutorial]. The Concordion AsciiDoc
+Extensions use AsciiDoc macros. The format of the macro is `<name>:<target>[<attrlist>]`, where the `name` is
+ `concordion`.
+
+=== assertEquals command
+
+Use assertEquals in the following form:
+
+----
+concordion:assertEquals["getGreeting()", "Hello World"]
+----
+
+== Commands and structures to implement
+
+=== Example div
+
+----
+concordion:exbegin
+
+concordion:exend
+----
+
+
+=== set command
+
+----
+concordion:set[#firstName, Bob]
+----
+
+=== execute command
+
+----
+concordion:execute[setCurrentTime(#time)]
+----
+
+=== Handling unusual sentence structures
+
+Using an `execute` command on the outer element.
+
+=== Execute on a table
+
+----
+concordion::tableexecute[#result = split(#fullName)]
+.Example table
+|====================================
+|concordion:set["#fullName"]|concordion:assertEquals["#result.firstName"]|concordion:assertEquals[#result.lastName]|
+|Full Name     |First Name|Last Name|
+|John Smith    |John      |Smith    |
+|David Peterson|David     |David    |
+|====================================
+----
+
+=== Execute on a list
+
+=== run command
+
+----
+concordion:run[../set/Set.html]
+----
