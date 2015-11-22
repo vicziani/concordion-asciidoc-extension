@@ -22,4 +22,8 @@ public class AttributeParser {
     public String getValueAt(int i) {
         return values.get(i);
     }
+
+    public int getSize() {
+        return values.size();
+    }
 }

@@ -1,0 +1,4 @@
+When the greeting is
+concordion:execute[setGreeting(#TEXT), Hello],
+then the greeting for user concordion:set[#name, Bob] will be
+concordion:assertEquals[greetingFor(#name), Hello Bob]
