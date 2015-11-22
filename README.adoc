@@ -21,6 +21,74 @@ http://asciidoctor.org/[AsciiDoctor] is a toolchain for converting AsciiDoc cont
 
 The https://github.com/concordion/concordion-markdown-extension[Concordion Markdown] inspired me to write this extension.
 
+== Motivation
+
+To write a Concordion test in XHTML format is a little bit verbose. (This example is from the Concordion tutorial.)
+
+[source, xml]
+----
+<html xmlns:concordion="http://www.concordion.org/2007/concordion">
+
+    <head>
+        <link href="../concordion.css" rel="stylesheet" type="text/css" />
+    </head>
+
+    <body>
+
+        <h1>Splitting Names</h1>
+
+        <p>
+            To help personalise our mailshots we want to have the first name
+            and last name of the customer. Unfortunately the customer data
+            that we are supplied only contains full names.
+        </p>
+
+        <p>
+            The system therefore attempts to break a supplied full name into
+            its constituents by splitting around whitespace.
+        </p>
+
+        <div class="example">
+
+            <h3>Example</h3>
+
+            <p>
+                The full name
+                <span concordion:execute="#result = split(#TEXT)">John Smith</span>
+                will be broken into first name
+                <span concordion:assertEquals="#result.firstName">John</span>
+                and last name
+                <span concordion:assertEquals="#result.lastName">Smith</span>.
+            </p>
+
+        </div>
+    </body>
+</html>
+----
+
+Same test case in AsciiDoc with Concordion AsciiDoc extension.
+
+----
+== Splitting Names
+
+To help personalise our mailshots we want to have the first name
+and last name of the customer. Unfortunately the customer data
+that we are supplied only contains full names.
+
+The system therefore attempts to break a supplied full name into
+its constituents by splitting around whitespace.
+
+[.example]
+=== Example
+
+The full name
+concordion:execute[#result = split(#TEXT), John Smith]
+will be broken into first name
+concordion:assertEquals[#result.firstName, John]
+and last name
+concordion:assertEquals[#result.lastName, Smith].
+----
+
 == Usage
 
 With Maven use the following dependency:
