@@ -82,15 +82,28 @@ or with two parameters:
 concordion:execute[setGreeting(#TEXT), Hello]
 ----
 
-== Commands and structures to implement
-
 === Example div
 
-----
-concordion:exbegin
+No need for any special element, in AsciiDoctor there are two ways to assign a role attribute to a block element.
+It will be compiled to CSS class in the HTML output.
 
-concordion:exend
+Prefixing the name with a dot (`.`).
+
 ----
+[.example]
+
+Hello World!
+----
+
+Or specifying role attribute with `role=<name>` pattern.
+
+----
+[role="example"]
+
+Hello World!
+----
+
+== Commands and structures to implement
 
 === Handling unusual sentence structures
 
