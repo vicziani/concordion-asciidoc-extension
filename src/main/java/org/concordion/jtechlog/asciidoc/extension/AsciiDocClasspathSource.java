@@ -7,12 +7,16 @@ import org.concordion.api.Resource;
 import org.concordion.api.Source;
 import org.concordion.jtechlog.asciidoc.macro.ConcordionMacro;
 import org.concordion.internal.ClassPathSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
 public class AsciiDocClasspathSource implements Source {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AsciiDocClasspathSource.class);
 
     private final Source classPathSource = new ClassPathSource();
 
@@ -28,6 +32,7 @@ public class AsciiDocClasspathSource implements Source {
         asciidoctor.convert(reader, writer, options);
 
         String html = wrapBody(writer.toString());
+        LOGGER.debug("AsciiDoctorJ output:\n" + html);
 
         return new ByteArrayInputStream(html.getBytes("UTF-8"));
     }
