@@ -68,6 +68,7 @@ To write a Concordion test in XHTML format is a little bit verbose. (This exampl
 
 Same test case in AsciiDoc with Concordion AsciiDoc extension.
 
+[source,asciidoc]
 ----
 == Splitting Names
 
@@ -124,6 +125,7 @@ Extensions use AsciiDoc macros. The format of the macro is `<name>:<target>[<att
 
 Use `assertEquals` command in the following form:
 
+[source,asciidoc]
 ----
 concordion:assertEquals[getGreeting(), Hello World]
 ----
@@ -132,6 +134,7 @@ concordion:assertEquals[getGreeting(), Hello World]
 
 Use `set` command in the following form:
 
+[source,asciidoc]
 ----
 concordion:set[#firstName, Bob]
 ----
@@ -140,12 +143,14 @@ concordion:set[#firstName, Bob]
 
 Use `execute` command with one parameter:
 
+[source,asciidoc]
 ----
 concordion:execute[setGreeting(#greeting)]
 ----
 
 or with two parameters:
 
+[source,asciidoc]
 ----
 concordion:execute[setGreeting(#TEXT), Hello]
 ----
@@ -157,6 +162,7 @@ It will be compiled to CSS class in the HTML output.
 
 Prefixing the name with a dot (`.`).
 
+[source,asciidoc]
 ----
 [.example]
 
@@ -165,6 +171,7 @@ Hello World!
 
 Or specifying role attribute with `role=<name>` pattern.
 
+[source,asciidoc]
 ----
 [role="example"]
 
@@ -179,6 +186,7 @@ Using an `execute` command on the outer element.
 
 === Execute on a table
 
+[source,asciidoc]
 ----
 concordion::tableexecute[#result = split(#fullName)]
 .Example table
@@ -194,6 +202,7 @@ concordion::tableexecute[#result = split(#fullName)]
 
 === run command
 
+[source,asciidoc]
 ----
 concordion:run[../set/Set.html]
 ----
