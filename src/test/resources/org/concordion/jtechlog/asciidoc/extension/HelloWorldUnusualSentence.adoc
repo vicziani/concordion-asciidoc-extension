@@ -1,0 +1,4 @@
+concordion:executeOnParagraph[#greeting = greetingFor(#firstName)]
+The greeting "concordion:assertEquals[#greeting, Hello Bob!]
+should be given to user concordion:set[#firstName, Bob]
+when he logs in.

@@ -5,8 +5,10 @@ import org.asciidoctor.OptionsBuilder;
 import org.asciidoctor.extension.JavaExtensionRegistry;
 import org.concordion.api.Resource;
 import org.concordion.api.Source;
+import org.concordion.jtechlog.asciidoc.macro.ConcordionExecuteOnParagraphPostProcessor;
 import org.concordion.jtechlog.asciidoc.macro.ConcordionMacro;
 import org.concordion.internal.ClassPathSource;
+import org.concordion.jtechlog.asciidoc.macro.ConcordionWrapBodyPostProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,22 +27,18 @@ public class AsciiDocClasspathSource implements Source {
         Asciidoctor asciidoctor = Asciidoctor.Factory.create();
         JavaExtensionRegistry extensionRegistry = asciidoctor.javaExtensionRegistry();
         extensionRegistry.inlineMacro(new ConcordionMacro("concordion", new HashMap<String, Object>()));
+        extensionRegistry.postprocessor(new ConcordionWrapBodyPostProcessor());
+        extensionRegistry.postprocessor(new ConcordionExecuteOnParagraphPostProcessor());
         Reader reader = new InputStreamReader(classPathSource.createInputStream(resource));
         CharArrayWriter writer = new CharArrayWriter();
         Map<String, Object> options =
             OptionsBuilder.options().asMap();
         asciidoctor.convert(reader, writer, options);
 
-        String html = wrapBody(writer.toString());
+        String html = writer.toString();
         LOGGER.debug("AsciiDoctorJ output:\n" + html);
 
         return new ByteArrayInputStream(html.getBytes("UTF-8"));
-    }
-
-    private String wrapBody(String body) {
-        return "<html xmlns:concordion='http://www.concordion.org/2007/concordion'><body>" +
-                body +
-                "</body></html>";
     }
 
     @Override

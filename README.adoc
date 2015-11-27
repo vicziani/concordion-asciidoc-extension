@@ -178,11 +178,16 @@ Or specifying role attribute with `role=<name>` pattern.
 Hello World!
 ----
 
-== Commands and structures to implement
-
 === Handling unusual sentence structures
 
-Using an `execute` command on the outer element.
+Using this macro the extension will create the `execute` command on the outer `p` element.
+
+[source,asciidoc]
+----
+concordion:executeOnParagraph[#greeting = greetingFor(#firstName)]
+----
+
+== Commands and structures to implement
 
 === Execute on a table
 

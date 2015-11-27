@@ -19,19 +19,19 @@ public class AssertEqualsTest {
     public void init() {
         JavaExtensionRegistry extensionRegistry = asciidoctor.javaExtensionRegistry();
         extensionRegistry.inlineMacro(new ConcordionMacro("concordion", new HashMap<String, Object>()));
-        extensionRegistry.postprocessor(new ConcordionNamespacePostProcessor());
+        extensionRegistry.postprocessor(new ConcordionWrapBodyPostProcessor());
     }
 
     @Test
     public void testAsciidoctorWorks() {
         String output = convert("foo");
-        assertThat(the(output), isEquivalentTo(the("<div class='paragraph'><p>foo</p></div>")));
+        assertThat(the(output), isEquivalentTo(the("<html xmlns:concordion='http://www.concordion.org/2007/concordion'><body><div class='paragraph'><p>foo</p></div></body></html>")));
     }
 
     @Test
     public void testSimpleAssertEquals() {
         String output = convert("concordion:assertEquals[getGreeting(), Hello World]");
-        assertThat(the(output), isEquivalentTo(the("<div class='paragraph' xmlns:concordion='http://www.concordion.org/2007/concordion'><p><span concordion:assertEquals='getGreeting()'>Hello World</span></p></div>")));
+        assertThat(the(output), isEquivalentTo(the("<html xmlns:concordion='http://www.concordion.org/2007/concordion'><body><div class='paragraph'><p><span concordion:assertEquals='getGreeting()'>Hello World</span></p></div></body></html>")));
     }
 
     private String convert(String s) {

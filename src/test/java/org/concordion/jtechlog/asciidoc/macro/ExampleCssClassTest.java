@@ -19,7 +19,6 @@ public class ExampleCssClassTest {
     public void init() {
         JavaExtensionRegistry extensionRegistry = asciidoctor.javaExtensionRegistry();
         extensionRegistry.inlineMacro(new ConcordionMacro("concordion", new HashMap<String, Object>()));
-        extensionRegistry.postprocessor(new ConcordionNamespacePostProcessor());
     }
 
     @Test
