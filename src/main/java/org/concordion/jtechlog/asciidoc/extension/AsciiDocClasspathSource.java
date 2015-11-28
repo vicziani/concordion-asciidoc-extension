@@ -32,7 +32,9 @@ public class AsciiDocClasspathSource implements Source {
         Reader reader = new InputStreamReader(classPathSource.createInputStream(resource));
         CharArrayWriter writer = new CharArrayWriter();
         Map<String, Object> options =
-            OptionsBuilder.options().asMap();
+            OptionsBuilder.options()
+                    .backend("xhtml5")
+                    .asMap();
         asciidoctor.convert(reader, writer, options);
 
         String html = writer.toString();
