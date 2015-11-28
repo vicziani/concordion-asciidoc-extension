@@ -187,21 +187,32 @@ Using this macro the extension will create the `execute` command on the outer `p
 concordion:executeOnParagraph[#greeting = greetingFor(#firstName)]
 ----
 
-== Commands and structures to implement
-
 === Execute on a table
+
+In the first row declare the `execute` command for the whole table, and `set` or `assertEquals` commands for the
+columns. An `execute` attribute will be generated in the html `table` tag, and `set` or `assertEquals` attributes
+will be generated in the `th` tag.
 
 [source,asciidoc]
 ----
-concordion::tableexecute[#result = split(#fullName)]
-.Example table
-|====================================
-|concordion:set["#fullName"]|concordion:assertEquals["#result.firstName"]|concordion:assertEquals[#result.lastName]|
-|Full Name     |First Name|Last Name|
-|John Smith    |John      |Smith    |
-|David Peterson|David     |David    |
-|====================================
+|===
+| Full Name | First Name | Last Name
+
+| concordion:executeOnTable[#result = split(#fullName)] concordion:setOnAllRows[#fullName]
+| concordion:assertEqualsOnAllRows[#result.firstName]
+| concordion:assertEqualsOnAllRows[#result.lastName]
+
+| John Smith
+| John
+| Smith
+
+| David Peterson
+| David
+| Peterson
+|===
 ----
+
+== Commands and structures to implement
 
 === Execute on a list
 

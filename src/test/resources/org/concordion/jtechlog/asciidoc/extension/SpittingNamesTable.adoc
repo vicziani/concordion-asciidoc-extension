@@ -1,0 +1,15 @@
+|===
+| Full Name | First Name | Last Name
+
+| concordion:executeOnTable[#result = split(#fullName)] concordion:setOnAllRows[#fullName]
+| concordion:assertEqualsOnAllRows[#result.firstName]
+| concordion:assertEqualsOnAllRows[#result.lastName]
+
+| John Smith
+| John
+| Smith
+
+| David Peterson
+| David
+| Peterson
+|===

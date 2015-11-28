@@ -5,7 +5,7 @@ import org.asciidoctor.OptionsBuilder;
 import org.asciidoctor.extension.JavaExtensionRegistry;
 import org.concordion.api.Resource;
 import org.concordion.api.Source;
-import org.concordion.jtechlog.asciidoc.macro.ConcordionExecuteOnParagraphPostProcessor;
+import org.concordion.jtechlog.asciidoc.macro.ConcordionPostProcessor;
 import org.concordion.jtechlog.asciidoc.macro.ConcordionMacro;
 import org.concordion.internal.ClassPathSource;
 import org.concordion.jtechlog.asciidoc.macro.ConcordionWrapBodyPostProcessor;
@@ -28,7 +28,7 @@ public class AsciiDocClasspathSource implements Source {
         JavaExtensionRegistry extensionRegistry = asciidoctor.javaExtensionRegistry();
         extensionRegistry.inlineMacro(new ConcordionMacro("concordion", new HashMap<String, Object>()));
         extensionRegistry.postprocessor(new ConcordionWrapBodyPostProcessor());
-        extensionRegistry.postprocessor(new ConcordionExecuteOnParagraphPostProcessor());
+        extensionRegistry.postprocessor(new ConcordionPostProcessor());
         Reader reader = new InputStreamReader(classPathSource.createInputStream(resource));
         CharArrayWriter writer = new CharArrayWriter();
         Map<String, Object> options =

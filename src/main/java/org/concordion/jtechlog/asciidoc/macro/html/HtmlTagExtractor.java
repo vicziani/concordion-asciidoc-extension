@@ -8,12 +8,39 @@ public class HtmlTagExtractor {
 
     public String extractExecuteOnParagraphs(String xml) {
         Document document = new StringToDocument().parse(xml);
-        NodeList nodeList = document.getElementsByTagNameNS(Namespaces.CONCORDION.getUri(), "executeOnParagraph");
+        forAll(document, "executeOnParagraph", new DomManipulateFunction() {
+            @Override
+            public void manipulate(Element element) {
+                extractExecuteOnParagraph(element);
+            }
+        });
+        forAll(document, "setOnAllRows", new DomManipulateFunction() {
+            @Override
+            public void manipulate(Element element) {
+                extractSetOrAssertEqualsOnAllRows(element, "concordion:set");
+            }
+        });
+        forAll(document, "assertEqualsOnAllRows", new DomManipulateFunction() {
+            @Override
+            public void manipulate(Element element) {
+                extractSetOrAssertEqualsOnAllRows(element, "concordion:assertEquals");
+            }
+        });
+        forAll(document, "executeOnTable", new DomManipulateFunction() {
+            @Override
+            public void manipulate(Element element) {
+                extractExecuteOnTable(element);
+            }
+        });
+        return new DocumentToString().convert(document);
+    }
+
+    private void forAll(Document document, String tagName, DomManipulateFunction domManipulateFunction) {
+        NodeList nodeList = document.getElementsByTagNameNS(Namespaces.CONCORDION.getUri(), tagName);
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element element = (Element) nodeList.item(i);
-            extractExecuteOnParagraph(element);
+            domManipulateFunction.manipulate(element);
         }
-        return new DocumentToString().convert(document);
     }
 
     private void extractExecuteOnParagraph(Element element) {
@@ -21,5 +48,48 @@ public class HtmlTagExtractor {
         Element parent = (Element) element.getParentNode();
         parent.setAttributeNS(Namespaces.CONCORDION.getUri(), "concordion:execute", statement);
         parent.removeChild(element);
+    }
+
+    private void extractSetOrAssertEqualsOnAllRows(Element element, String attributeName) {
+        String statement = element.getAttribute("statement");
+        int columnNumber = columnNumber(element);
+        Element tableElement = findParentWithName(element, "table");
+        NodeList thElements = tableElement.getElementsByTagName("th");
+        Element thElement = (Element) thElements.item(columnNumber);
+        thElement.setAttributeNS(Namespaces.CONCORDION.getUri(), attributeName, statement);
+    }
+
+    private void extractExecuteOnTable(Element element) {
+        String statement = element.getAttribute("statement");
+        Element tableElement = findParentWithName(element, "table");
+        tableElement.setAttributeNS(Namespaces.CONCORDION.getUri(), "concordion:execute", statement);
+        Element trElement = findParentWithName(element, "tr");
+        Element parent = (Element) trElement.getParentNode();
+        parent.removeChild(trElement);
+    }
+
+    private Element findParentWithName(Element baseElement, String elementNameToFind) {
+        Element element = baseElement;
+        while (!element.getNodeName().equals(elementNameToFind)) {
+            element = (Element) element.getParentNode();
+        }
+        return element;
+    }
+
+    private int columnNumber(Element element) {
+        Element tdElement = findParentWithName(element, "td");
+        Element trElement = findParentWithName(element, "tr");
+        NodeList tdElements = trElement.getElementsByTagName("td");
+        for (int i = 0; i < tdElements.getLength(); i++) {
+            if (tdElement == tdElements.item(i)) {
+                return i;
+            }
+        }
+        throw new IllegalArgumentException("Element is not in a proper table.");
+    }
+
+
+    private interface DomManipulateFunction {
+        void manipulate(Element element);
     }
 }

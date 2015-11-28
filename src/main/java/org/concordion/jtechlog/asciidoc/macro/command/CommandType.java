@@ -3,9 +3,12 @@ package org.concordion.jtechlog.asciidoc.macro.command;
 public enum CommandType {
 
     ASSERT_EQUALS("assertEquals", new AssertEqualsCommand()),
+    ASSERT_EQUALS_ON_ALL_ROWS("assertEqualsOnAllRows", new AssertEqualsOnAllRowsCommand()),
     EXECUTE("execute", new ExecuteCommand()),
     EXECUTE_ON_PARAGRAPH("executeOnParagraph", new ExecuteOnParagraphCommand()),
-    SET_COMMAND("set", new SetCommand())
+    EXECUTE_ON_TABLE("executeOnTable", new ExecuteOnTableCommand()),
+    SET_COMMAND("set", new SetCommand()),
+    SET_ON_ALL_ROWS("setOnAllRows", new SetOnAllRowsCommand())
     ;
 
     private String name;
