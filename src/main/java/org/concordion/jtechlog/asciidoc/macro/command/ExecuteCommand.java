@@ -2,7 +2,7 @@ package org.concordion.jtechlog.asciidoc.macro.command;
 
 import java.util.Map;
 
-public class ExecuteCommand {
+public class ExecuteCommand implements Command {
     public String process(Map<String, Object> attributes) {
         AttributeParser attributeParser = new AttributeParser(attributes);
         if (attributeParser.getSize() == 1) {
