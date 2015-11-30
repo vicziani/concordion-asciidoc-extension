@@ -212,6 +212,21 @@ will be generated in the `th` tag.
 |===
 ----
 
+=== verifyRows command
+
+Declare the `verifyRows` command in the first row of the table.
+
+[source,asciidoc]
+----
+|===
+| Matching Usernames
+
+| concordion:verifyRows[#username : getSearchResultsFor(#searchString)] concordion:assertEqualsOnAllRows[#username]
+| george.harrison
+| ringo.starr
+|===
+----
+
 == Commands and structures to implement
 
 === Execute on a list

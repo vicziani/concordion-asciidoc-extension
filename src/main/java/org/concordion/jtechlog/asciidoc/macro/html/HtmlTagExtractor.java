@@ -32,6 +32,12 @@ public class HtmlTagExtractor {
                 extractExecuteOnTable(element);
             }
         });
+        forAll(document, "verifyRows", new DomManipulateFunction() {
+            @Override
+            public void manipulate(Element element) {
+                extractVerifyRows(element);
+            }
+        });
         return new DocumentToString().convert(document);
     }
 
@@ -67,6 +73,16 @@ public class HtmlTagExtractor {
         Element parent = (Element) trElement.getParentNode();
         parent.removeChild(trElement);
     }
+
+    private void extractVerifyRows(Element element) {
+        String statement = element.getAttribute("statement");
+        Element tableElement = findParentWithName(element, "table");
+        tableElement.setAttributeNS(Namespaces.CONCORDION.getUri(), "concordion:verifyRows", statement);
+        Element trElement = findParentWithName(element, "tr");
+        Element parent = (Element) trElement.getParentNode();
+        parent.removeChild(trElement);
+    }
+
 
     private Element findParentWithName(Element baseElement, String elementNameToFind) {
         Element element = baseElement;

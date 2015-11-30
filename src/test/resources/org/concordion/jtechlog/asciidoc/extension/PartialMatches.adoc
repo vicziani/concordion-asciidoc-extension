@@ -1,0 +1,29 @@
+== Partial Matches
+
+Username searches return partial matches, i.e. all usernames containing the search string are returned.
+
+[.example]
+
+=== Example
+
+Given these users:
+
+|===
+| Username
+
+| concordion:executeOnTable[setUpUser(#username)] concordion:setOnAllRows[#username]
+| john.lennon
+| ringo.starr
+| george.harrison
+| paul.mccartney
+|===
+
+Searching for *concordion:set[#searchString, arr]* will return:
+
+|===
+| Matching Usernames
+
+| concordion:verifyRows[#username : getSearchResultsFor(#searchString)] concordion:assertEqualsOnAllRows[#username]
+| george.harrison
+| ringo.starr
+|===
