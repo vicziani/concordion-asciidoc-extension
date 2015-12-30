@@ -1,0 +1,35 @@
+== Executing list
+
+[.example]
+
+=== Example
+
+Given the following list:
+
+. concordion:executeOnList["parseNode(#TEXT, #LEVEL)"] Europe
+** Austria
+... Vienna
+** UK
+*** England
+*** Scotland
+** France
+. Australia
+
+The following items are in the list:
+
+|===
+| Item | Level
+
+| concordion:verifyRows[#nodeValues : getNodes()]
+  concordion:assertEqualsOnAllRows[#nodeValues.name]
+| concordion:assertEqualsOnAllRows[#nodeValues.level]
+
+| Europe | 1
+| Austria | 2
+| Vienna | 3
+| UK | 2
+| England | 3
+| Scotland | 3
+| France | 2
+| Australia | 1
+|===

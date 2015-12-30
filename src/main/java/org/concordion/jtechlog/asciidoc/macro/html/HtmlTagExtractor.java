@@ -2,6 +2,7 @@ package org.concordion.jtechlog.asciidoc.macro.html;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class HtmlTagExtractor {
@@ -38,7 +39,54 @@ public class HtmlTagExtractor {
                 extractVerifyRows(element);
             }
         });
+        forAll(document, "executeOnList", new DomManipulateFunction() {
+            @Override
+            public void manipulate(Element element) {
+                extractExecuteOnList(element);
+            }
+        });
+        removeListDivs(document, document.getDocumentElement());
         return new DocumentToString().convert(document);
+    }
+
+    private void removeListDivs(Document document, Node node) {
+        if (nodeToRemove(node)) {
+            Node parent = node.getParentNode();
+            for (int i = 0; i < node.getChildNodes().getLength(); i++) {
+                Node child = document.importNode(node.getChildNodes().item(i), true);
+                parent.getParentNode().insertBefore(child, parent.getNextSibling());
+            }
+            parent.removeChild(node);
+        }
+        for (int i = 0; i < node.getChildNodes().getLength(); i++) {
+            removeListDivs(document, node.getChildNodes().item(i));
+        }
+    }
+
+    private boolean nodeToRemove(Node node) {
+        if (node instanceof Element) {
+            Element element = (Element) node;
+            return element.getNodeName().equals("div") && hasListChild(element) && isListItem(element.getParentNode());
+        } else {
+            return false;
+        }
+    }
+
+    private boolean hasListChild(Node node) {
+        for (int i = 0; i < node.getChildNodes().getLength(); i++) {
+            if (isListNode(node.getChildNodes().item(i))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isListNode(Node node) {
+        return node.getNodeName().equals("ul") || node.getNodeName().equals("ol");
+    }
+
+    private boolean isListItem(Node node) {
+        return node.getNodeName().equals("li");
     }
 
     private void forAll(Document document, String tagName, DomManipulateFunction domManipulateFunction) {
@@ -83,6 +131,30 @@ public class HtmlTagExtractor {
         parent.removeChild(trElement);
     }
 
+    private void extractExecuteOnList(Element element) {
+        String statement = element.getAttribute("statement");
+        Element listElement ;
+        if (hasParentWithName(element, "ul")) {
+            listElement = findParentWithName(element, "ul");
+        }
+        else if (hasParentWithName(element, "ol")) {
+            listElement = findParentWithName(element, "ol");
+        }
+        else {
+            throw new IllegalArgumentException("List (ul or ul) not found. Maybe the executeOnList command is not in a list.");
+        }
+        listElement.setAttributeNS(Namespaces.CONCORDION.getUri(), "concordion:execute", statement);
+        Element parent = (Element) element.getParentNode();
+        parent.removeChild(element);
+    }
+
+    private boolean hasParentWithName(Element baseElement, String elementNameToFind) {
+        Node parent = baseElement;
+        while (((parent != null)) && (!parent.getNodeName().equals(elementNameToFind))) {
+            parent = parent.getParentNode();
+        }
+        return (parent != null) && (parent.getNodeName().equals(elementNameToFind));
+    }
 
     private Element findParentWithName(Element baseElement, String elementNameToFind) {
         Element element = baseElement;

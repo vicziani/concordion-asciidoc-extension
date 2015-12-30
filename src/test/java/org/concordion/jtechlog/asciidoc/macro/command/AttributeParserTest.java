@@ -24,9 +24,16 @@ public class AttributeParserTest {
         assertThat(attributeParser.getValueAt(1), is("bar"));
     }
 
+    @Test
+    public void testParseWithQuotes() {
+        AttributeParser attributeParser = create("\"foo, bar\"");
+        assertThat(attributeParser.getValueAt(0), is("foo, bar"));
+    }
+
     private AttributeParser create(String text) {
         Map<String, Object> attributes = new HashMap<>();
         attributes.put("text", text);
         return new AttributeParser(attributes);
     }
+
 }
