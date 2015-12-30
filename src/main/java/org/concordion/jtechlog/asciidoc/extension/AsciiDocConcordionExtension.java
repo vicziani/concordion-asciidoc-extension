@@ -9,6 +9,6 @@ public class AsciiDocConcordionExtension implements ConcordionExtension {
         concordionExtender
                 .withSpecificationLocator(new AsciiDocLocator())
                 .withSource(new AsciiDocClasspathSource())
-        .withTarget(new AsciiDocSuffixRenamingTarget());
+                .withTarget(new AsciiDocSuffixRenamingTarget());
     }
 }
