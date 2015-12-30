@@ -1,0 +1,8 @@
+== Run command
+
+The run command lets you link to another specification and run it, displaying the link's background in green / red / gray as appropriate.
+
+[.example]
+Here we run the HelloWorld test case with run command.
+
+concordion:run[HelloWorld.adoc, Hello world]

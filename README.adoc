@@ -245,11 +245,11 @@ Declare the `executeOnList` command in the first item of the list. Nested lists 
 |===
 ----
 
-== Commands and structures to implement
-
 === run command
+
+Use `run` command in the following form:
 
 [source,asciidoc]
 ----
-concordion:run[../set/Set.html]
+concordion:run[HelloWorld.adoc, Hello world]
 ----

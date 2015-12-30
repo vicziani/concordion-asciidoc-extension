@@ -8,9 +8,10 @@ public enum CommandType {
     EXECUTE_ON_PARAGRAPH("executeOnParagraph", new ExecuteOnParagraphCommand()),
     EXECUTE_ON_TABLE("executeOnTable", new ExecuteOnTableCommand()),
     EXECUTE_ON_LIST("executeOnList", new ExecuteOnListCommand()),
-    SET_COMMAND("set", new SetCommand()),
+    SET("set", new SetCommand()),
     SET_ON_ALL_ROWS("setOnAllRows", new SetOnAllRowsCommand()),
-    VERIFY_ROWS("verifyRows", new VerifyRowsCommand())
+    VERIFY_ROWS("verifyRows", new VerifyRowsCommand()),
+    RUN("run", new RunCommand())
     ;
 
     private String name;
