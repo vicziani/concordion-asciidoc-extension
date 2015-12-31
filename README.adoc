@@ -253,3 +253,23 @@ Use `run` command in the following form:
 ----
 concordion:run[HelloWorld.adoc, Hello world]
 ----
+
+=== assertTrueOnParagraph and assertFalseOnParagraph command
+
+Because it is not so easy to define a span in AsciiDoc, use `assertTrue` and `assertFalse` commands on paragraph.
+In most cases, `assertEquals` is a better choice than `assertTrue` or `assertFalse` as its error message
+is more intuitive.
+
+The `assertTrue` and `assertFalse` is useful when the fixture needs to know the expected value in order to perform the
+test.
+
+Use these commands in the following form:
+
+[source,asciidoc]
+----
+The first name concordion:assertTrueOnParagraph[#firstName.startsWith(#letter)]
+starts with *concordion:set[#letter, B]*.
+
+The first name concordion:assertFalseOnParagraph[#firstName.startsWith(#letter)] doesn't
+start with *concordion:set[#letter,C]*.
+----

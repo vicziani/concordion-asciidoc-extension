@@ -11,7 +11,9 @@ public enum CommandType {
     SET("set", new SetCommand()),
     SET_ON_ALL_ROWS("setOnAllRows", new SetOnAllRowsCommand()),
     VERIFY_ROWS("verifyRows", new VerifyRowsCommand()),
-    RUN("run", new RunCommand())
+    RUN("run", new RunCommand()),
+    ASSERT_TRUE_ON_PARAGRAPH("assertTrueOnParagraph", new AssertTrueOnParagraphCommand()),
+    ASSERT_FALSE_ON_PARAGRAPH("assertFalseOnParagraph", new AssertFalseOnParagraphCommand())
     ;
 
     private String name;

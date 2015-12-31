@@ -1,0 +1,12 @@
+== Demonstrating assertTrue and assertFalse commands
+
+This simple example demonstrates the assertTrue and assertFalse commands.
+
+[.example]
+=== Example
+
+The user concordion:set[#firstName,Bob] logs in.
+
+The first name concordion:assertTrueOnParagraph[#firstName.startsWith(#letter)] starts with *concordion:set[#letter, B]*.
+
+The first name concordion:assertFalseOnParagraph[#firstName.startsWith(#letter)] doesn't start with *concordion:set[#letter,C]*.

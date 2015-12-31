@@ -45,6 +45,18 @@ public class HtmlTagExtractor {
                 extractExecuteOnList(element);
             }
         });
+        forAll(document, "assertTrueOnParagraph", new DomManipulateFunction() {
+            @Override
+            public void manipulate(Element element) {
+                extractAssertTrueOnParagraph(element);
+            }
+        });
+        forAll(document, "assertFalseOnParagraph", new DomManipulateFunction() {
+            @Override
+            public void manipulate(Element element) {
+                extractAssertFalseOnParagraph(element);
+            }
+        });
         removeListDivs(document, document.getDocumentElement());
         return new DocumentToString().convert(document);
     }
@@ -99,7 +111,7 @@ public class HtmlTagExtractor {
 
     private void extractExecuteOnParagraph(Element element) {
         String statement = element.getAttribute("statement");
-        Element parent = (Element) element.getParentNode();
+        Element parent = findParentWithName(element, "p");
         parent.setAttributeNS(Namespaces.CONCORDION.getUri(), "concordion:execute", statement);
         parent.removeChild(element);
     }
@@ -176,6 +188,19 @@ public class HtmlTagExtractor {
         throw new IllegalArgumentException("Element is not in a proper table.");
     }
 
+    private void extractAssertTrueOnParagraph(Element element) {
+        String statement = element.getAttribute("statement");
+        Element parent = findParentWithName(element, "p");
+        parent.setAttributeNS(Namespaces.CONCORDION.getUri(), "concordion:assertTrue", statement);
+        parent.removeChild(element);
+    }
+
+    private void extractAssertFalseOnParagraph(Element element) {
+        String statement = element.getAttribute("statement");
+        Element parent = findParentWithName(element, "p");
+        parent.setAttributeNS(Namespaces.CONCORDION.getUri(), "concordion:assertFalse", statement);
+        parent.removeChild(element);
+    }
 
     private interface DomManipulateFunction {
         void manipulate(Element element);
